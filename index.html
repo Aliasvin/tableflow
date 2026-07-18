@@ -84,37 +84,148 @@
     .statusbar{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
     .statusitem{background:var(--panel-2);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
     .empty{text-align:center;color:var(--muted);padding:30px}
+
+    .schedule-layout{display:grid;grid-template-columns:320px 1fr;gap:16px}
+    .employee-list{display:grid;gap:10px}
+    .employee-card{border:1px solid var(--line);border-radius:14px;padding:12px;background:#fff}
+    .employee-head{display:flex;justify-content:space-between;gap:10px;align-items:start}
+    .employee-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+    .avatar{width:36px;height:36px;border-radius:50%;background:var(--accent-soft);color:var(--accent-dark);display:grid;place-items:center;font-weight:750;flex:0 0 auto}
+    .week-grid{display:grid;grid-template-columns:150px repeat(7,minmax(125px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+    .week-grid>div{background:#fff;min-height:72px;padding:8px}
+    .week-grid .head{background:var(--panel-2);min-height:auto;font-size:12px;color:var(--muted);font-weight:700}
+    .week-grid .employee-cell{display:flex;gap:8px;align-items:flex-start}
+    .shift{border-radius:10px;padding:7px 8px;margin-bottom:6px;background:var(--blue-soft);color:var(--blue);font-size:12px;border:1px solid #cfdef3}
+    .shift.kitchen{background:var(--amber-soft);color:var(--amber);border-color:#f0ddb7}
+    .shift.bar{background:var(--green-soft);color:var(--green);border-color:#cde6d9}
+    .shift.host{background:var(--accent-soft);color:var(--accent-dark);border-color:#e8cdbf}
+    .shift.open{background:#f2f1ef;color:#555;border-style:dashed}
+    .shift button{border:0;background:transparent;color:inherit;padding:0;float:right}
+    .schedule-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+    .planner-toolbar{display:flex;gap:9px;flex-wrap:wrap;align-items:end;margin-bottom:14px}
+    .warning-list{display:grid;gap:8px}
+    .warning-item{padding:10px 12px;border-radius:12px;background:var(--amber-soft);color:var(--amber);border:1px solid #f0ddb7}
+    .warning-item.red{background:var(--red-soft);color:var(--red);border-color:#f1cbc7}
+    .availability{font-size:11px;color:var(--muted);margin-top:6px}
+    .drawer{position:fixed;top:0;right:-520px;width:min(500px,100%);height:100vh;background:#fff;z-index:30;box-shadow:-18px 0 50px rgba(0,0,0,.18);transition:right .25s ease;padding:22px;overflow:auto}
+    .drawer.open{right:0}
+    .drawer-backdrop{position:fixed;inset:0;background:rgba(20,24,22,.35);z-index:29;display:none}
+    .drawer-backdrop.open{display:block}
+    @media(max-width:1100px){.schedule-layout{grid-template-columns:1fr}.week-grid{grid-template-columns:130px repeat(7,minmax(115px,1fr));overflow:auto}.schedule-summary{grid-template-columns:repeat(2,1fr)}}
+
     @media(max-width:1100px){.metrics{grid-template-columns:repeat(3,1fr)}.dashboard-grid,.forecast-grid{grid-template-columns:1fr}.form-grid{grid-template-columns:repeat(2,1fr)}}
-    @media(max-width:760px){.app{grid-template-columns:1fr}.sidebar{position:static;height:auto}.nav{grid-template-columns:repeat(3,1fr)}.nav button{justify-content:center;font-size:0}.nav button span{display:none}.sidebar-foot{display:none}.topbar{padding:16px}.content{padding:16px}.metrics{grid-template-columns:repeat(2,1fr)}.form-grid{grid-template-columns:1fr}.form-grid .wide{grid-column:auto}.timeline-row,.staff-row{grid-template-columns:1fr 1fr}.topbar p{display:none}}
+    .mobile-menu-btn,.sidebar-close{display:none}
+    .mobile-nav-overlay{display:none}
+    @media(max-width:760px){
+      body.menu-open{overflow:hidden}
+      .app{display:block}
+      .sidebar{
+        position:fixed;
+        inset:0 auto 0 0;
+        width:min(86vw,320px);
+        height:100dvh;
+        z-index:50;
+        transform:translateX(-105%);
+        transition:transform .24s ease;
+        padding:18px 14px;
+        box-shadow:20px 0 50px rgba(0,0,0,.28);
+      }
+      .sidebar.open{transform:translateX(0)}
+      .mobile-nav-overlay{
+        position:fixed;
+        inset:0;
+        z-index:45;
+        background:rgba(15,18,16,.52);
+        backdrop-filter:blur(2px);
+      }
+      .mobile-nav-overlay.open{display:block}
+      .sidebar-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+      .sidebar-close{
+        display:inline-grid;
+        place-items:center;
+        width:42px;
+        height:42px;
+        border:1px solid #48504b;
+        border-radius:12px;
+        background:#303632;
+        color:#fff;
+      }
+      .sidebar-close svg,.mobile-menu-btn svg{width:22px;height:22px;stroke-width:2.2}
+      .nav{display:grid;grid-template-columns:1fr;gap:7px}
+      .nav button{
+        width:100%;
+        min-height:48px;
+        justify-content:flex-start;
+        padding:12px 13px;
+        font-size:15px;
+      }
+      .nav button span{display:inline}
+      .nav svg{width:21px;height:21px;min-width:21px;stroke-width:2.1}
+      .sidebar-foot{display:block}
+      .mobile-menu-btn{
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        width:44px;
+        height:44px;
+        flex:0 0 44px;
+        border:1px solid var(--line);
+        border-radius:12px;
+        background:#fff;
+        color:var(--text);
+      }
+      .topbar{padding:12px 14px;gap:10px}
+      .topbar>div:first-of-type{min-width:0;flex:1}
+      .topbar h1{font-size:20px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+      .topbar p{display:none}
+      .top-actions{gap:7px}
+      .top-actions .icon-btn{width:42px;height:42px;padding:0;justify-content:center;font-size:0}
+      .top-actions .icon-btn svg{width:20px;height:20px}
+      .top-actions .btn.primary{padding:10px 12px}
+      .content{padding:16px}
+      .metrics{grid-template-columns:repeat(2,1fr)}
+      .form-grid{grid-template-columns:1fr}
+      .form-grid .wide{grid-column:auto}
+      .timeline-row,.staff-row{grid-template-columns:1fr 1fr}
+    }
   </style>
 </head>
 <body>
 <div class="app">
-  <aside class="sidebar">
-    <div class="brand"><div class="brandmark">TF</div><div><strong>TableFlow V1</strong><small>Restaurant operations</small></div></div>
+  <aside class="sidebar" id="mobileSidebar">
+    <div class="sidebar-top">
+      <div class="brand"><div class="brandmark">TF</div><div><strong>TableFlow</strong><small>Restaurant operations</small></div></div>
+      <button class="sidebar-close" id="closeMobileMenu" type="button" aria-label="Menu sluiten"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;width:1.15em;height:1.15em;flex:0 0 auto;vertical-align:-0.18em"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </div>
     <nav class="nav">
-      <button class="active" data-page="dashboard"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></button>
-      <button data-page="reservations"><i data-lucide="calendar-days"></i><span>Reserveringen</span></button>
-      <button data-page="forecast"><i data-lucide="sparkles"></i><span>Personeelsprognose</span></button>
-      <button data-page="schedule"><i data-lucide="users-round"></i><span>Rooster</span></button>
-      <button data-page="reports"><i data-lucide="chart-no-axes-combined"></i><span>Rapportages</span></button>
-      <button data-page="integration"><i data-lucide="code-2"></i><span>Website-integratie</span></button>
-      <button data-page="settings"><i data-lucide="settings"></i><span>Instellingen</span></button>
+      <button class="active" data-page="dashboard"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;width:1.15em;height:1.15em;flex:0 0 auto;vertical-align:-0.18em"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span>Dashboard</span></button>
+      <button data-page="reservations"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;width:1.15em;height:1.15em;flex:0 0 auto;vertical-align:-0.18em"><path d="M8 2v4M16 2v4M3 10h18"/><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg><span>Reserveringen</span></button>
+      <button data-page="forecast"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;width:1.15em;height:1.15em;flex:0 0 auto;vertical-align:-0.18em"><path d="m12 3-1.2 3.1L8 7.5l2.8 1.4L12 12l1.2-3.1L16 7.5l-2.8-1.4L12 3Z"/><path d="m5 14-.8 2.1L2 17.2l2.2 1.1L5 20.5l.8-2.2 2.2-1.1-2.2-1.1L5 14Z"/><path d="m19 13-.7 1.8-1.8.7 1.8.8.7 1.7.8-1.7 1.7-.8-1.7-.7L19 13Z"/></svg><span>Personeelsprognose</span></button>
+      <button data-page="schedule"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;width:1.15em;height:1.15em;flex:0 0 auto;vertical-align:-0.18em"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>Rooster</span></button>
+      <button data-page="reports"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;width:1.15em;height:1.15em;flex:0 0 auto;vertical-align:-0.18em"><path d="m3 3 18 18"/><path d="M18 17V9M13 12V6M8 7V4"/><path d="m4 14 4-4 4 3 5-6 3 2"/></svg><span>Rapportages</span></button>
+      <button data-page="integration"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;width:1.15em;height:1.15em;flex:0 0 auto;vertical-align:-0.18em"><path d="m18 16 4-4-4-4M6 8l-4 4 4 4M14.5 4l-5 16"/></svg><span>Website-integratie</span></button>
+      <button data-page="settings"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;width:1.15em;height:1.15em;flex:0 0 auto;vertical-align:-0.18em"><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.83 2.83-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .6 1.7 1.7 0 0 0-.4 1v.1H9.6V21a1.7 1.7 0 0 0-.4-1 1.7 1.7 0 0 0-1-.6 1.7 1.7 0 0 0-1.88.34l-.06.06-2.83-2.83.06-.06A1.7 1.7 0 0 0 3.6 15a1.7 1.7 0 0 0-.6-1 1.7 1.7 0 0 0-1-.4h-.1V9.6H2a1.7 1.7 0 0 0 1-.4 1.7 1.7 0 0 0 .6-1 1.7 1.7 0 0 0-.34-1.88l-.06-.06 2.83-2.83.06.06A1.7 1.7 0 0 0 8 3.6a1.7 1.7 0 0 0 1-.6 1.7 1.7 0 0 0 .4-1v-.1h4V2a1.7 1.7 0 0 0 .4 1 1.7 1.7 0 0 0 1 .6 1.7 1.7 0 0 0 1.88-.34l.06-.06 2.83 2.83-.06.06A1.7 1.7 0 0 0 20.4 8c.16.36.24.75.24 1.14v.06H22v4h-1.36v.06c0 .39-.08.78-.24 1.14Z"/></svg><span>Instellingen</span></button>
     </nav>
     <div class="sidebar-foot">Demo-omgeving<br><strong>Restaurant De Kade</strong><br>Groningen</div>
   </aside>
+  <div class="mobile-nav-overlay" id="mobileNavOverlay"></div>
 
   <main>
     <header class="topbar">
+      <button class="mobile-menu-btn" id="openMobileMenu" type="button" aria-label="Menu openen" aria-controls="mobileSidebar" aria-expanded="false"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;width:1.15em;height:1.15em;flex:0 0 auto;vertical-align:-0.18em"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
       <div><h1 id="pageTitle">Dashboard</h1><p id="pageSubtitle">Vooruitblik op reserveringen, bezetting en personeelsbehoefte.</p></div>
       <div class="top-actions">
-        <button class="icon-btn" id="resetDemo"><i data-lucide="rotate-ccw"></i>Reset</button>
-        <button class="btn primary" id="openReservation"><i data-lucide="plus"></i>Reservering</button>
+        <button class="icon-btn" id="resetDemo"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;width:1.15em;height:1.15em;flex:0 0 auto;vertical-align:-0.18em"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>Reset</button>
+        <button class="btn primary" id="openReservation"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;width:1.15em;height:1.15em;flex:0 0 auto;vertical-align:-0.18em"><path d="M12 5v14M5 12h14"/></svg>Reservering</button>
       </div>
     </header>
 
     <div class="content">
       <section class="page active" id="dashboard">
+        <div class="section-row" style="margin-bottom:12px">
+          <div class="small">De voorbeeldgegevens worden automatisch geladen. Lokale opslag is niet vereist.</div>
+          <button class="btn" id="reloadDemoData" type="button"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;width:1.15em;height:1.15em;flex:0 0 auto;vertical-align:-0.18em"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>Laad demogegevens</button>
+        </div>
         <div class="grid metrics">
           <div class="metric"><div class="label">Verwachte gasten komende 7 dagen</div><div class="value" id="mGuests">0</div><div class="delta up">Inclusief prognose en walk-ins</div></div>
           <div class="metric"><div class="label">Bevestigde reserveringen</div><div class="value" id="mReservations">0</div><div class="delta up">Actuele boekingen</div></div>
@@ -179,18 +290,53 @@
             <div class="section-row"><div><h2>Onderbouwing van het advies</h2><p class="sub">Het systeem plant niet alleen op basis van reserveringen die al binnen zijn.</p></div></div>
             <div class="timeline" id="forecastBreakdown"></div>
             <div class="callout" id="forecastAdvice"></div>
-            <button class="btn primary" id="applyForecast" style="margin-top:14px"><i data-lucide="calendar-plus"></i>Neem advies over in conceptrooster</button>
+            <button class="btn primary" id="applyForecast" style="margin-top:14px"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;width:1.15em;height:1.15em;flex:0 0 auto;vertical-align:-0.18em"><path d="M8 2v4M16 2v4M3 10h18"/><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M12 14v4M10 16h4"/></svg>Neem advies over in conceptrooster</button>
           </div>
         </div>
       </section>
 
       <section class="page" id="schedule">
+        <div class="schedule-summary">
+          <div class="metric"><div class="label">Geplande uren</div><div class="value" id="sPlannedHours">0</div><div class="delta">Deze roosterweek</div></div>
+          <div class="metric"><div class="label">Benodigde uren</div><div class="value" id="sNeededHours">0</div><div class="delta">Op basis van de prognose</div></div>
+          <div class="metric"><div class="label">Verwachte loonkosten</div><div class="value" id="sLaborCost">€ 0</div><div class="delta">Inclusief werkgeverslasten</div></div>
+          <div class="metric"><div class="label">Open diensten</div><div class="value" id="sOpenShifts">0</div><div class="delta" id="sPublishState">Conceptrooster</div></div>
+        </div>
+
         <div class="card">
-          <div class="toolbar">
-            <div><h2>Conceptrooster</h2><p class="sub">Ingeplande medewerkers vergeleken met de personeelsbehoefte.</p></div>
+          <div class="planner-toolbar">
             <label><span>Week van</span><input type="date" id="scheduleWeek"></label>
+            <label><span>Afdeling</span><select id="scheduleDepartment"><option value="">Alle afdelingen</option><option value="service">Bediening</option><option value="kitchen">Keuken</option><option value="bar">Bar</option><option value="host">Host</option></select></label>
+            <label><span>Roosterstatus</span><select id="scheduleStatus"><option>Concept</option><option>Gecontroleerd</option><option>Gepubliceerd</option></select></label>
+            <button class="btn" id="autoSchedule"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;width:1.15em;height:1.15em;flex:0 0 auto;vertical-align:-0.18em"><path d="m15 4 5 5L7 22l-5-5L15 4Z"/><path d="m14 5 5 5M6 3v4M4 5h4M19 15v4M17 17h4"/></svg>Automatisch basisrooster</button>
+            <button class="btn" id="openShiftBtn"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;width:1.15em;height:1.15em;flex:0 0 auto;vertical-align:-0.18em"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>Open dienst</button>
+            <button class="btn primary" id="publishSchedule"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;width:1.15em;height:1.15em;flex:0 0 auto;vertical-align:-0.18em"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>Publiceer rooster</button>
           </div>
-          <div style="overflow:auto"><table><thead><tr><th>Datum</th><th>Gastenprognose</th><th>Bediening</th><th>Keuken</th><th>Bar</th><th>Host</th><th>Status</th></tr></thead><tbody id="scheduleTable"></tbody></table></div>
+
+          <div class="schedule-layout">
+            <aside>
+              <div class="section-row"><div><h3>Medewerkers</h3><p class="sub">Contract, beschikbaarheid en inzetbaarheid.</p></div><button class="icon-btn" id="addEmployeeBtn"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;width:1.15em;height:1.15em;flex:0 0 auto;vertical-align:-0.18em"><path d="M15 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8" cy="7" r="4"/><path d="M19 8v6M16 11h6"/></svg></button></div>
+              <div class="employee-list" id="employeeList"></div>
+              <div class="card" style="box-shadow:none;margin-top:12px">
+                <h3>Roosterwaarschuwingen</h3>
+                <div class="warning-list" id="scheduleWarnings"></div>
+              </div>
+            </aside>
+
+            <div style="min-width:0">
+              <div class="section-row">
+                <div><h3>Weekrooster</h3><p class="sub">Klik op een lege dagcel om een dienst toe te voegen.</p></div>
+                <div class="filters"><span class="badge blue">Bediening</span><span class="badge amber">Keuken</span><span class="badge green">Bar</span><span class="badge red">Host</span></div>
+              </div>
+              <div style="overflow:auto"><div class="week-grid" id="weekPlanner"></div></div>
+              <div class="statusbar">
+                <div class="statusitem">Minimum rusttijd<br><strong>11 uur</strong></div>
+                <div class="statusitem">Maximale dienstduur<br><strong>10 uur</strong></div>
+                <div class="statusitem">Pauze vanaf<br><strong>5,5 uur</strong></div>
+                <div class="statusitem">Contractcontrole<br><strong>Actief</strong></div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -240,7 +386,7 @@
             <h3 style="margin-top:18px">Embedcode</h3>
             <p class="sub">Deze code kan in een bestaande WordPress-, Webflow-, Wix- of maatwerkwebsite worden geplaatst.</p>
             <textarea id="embedCode" readonly style="width:100%;min-height:130px;border:1px solid var(--line);border-radius:12px;padding:12px;background:#fbfaf8;font:13px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace"></textarea>
-            <button class="btn primary" id="copyEmbed" style="margin-top:10px"><i data-lucide="copy"></i>Kopieer embedcode</button>
+            <button class="btn primary" id="copyEmbed" style="margin-top:10px"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;width:1.15em;height:1.15em;flex:0 0 auto;vertical-align:-0.18em"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Kopieer embedcode</button>
             <span id="copyFeedback" class="small" aria-live="polite" style="margin-left:10px"></span>
           </div>
 
@@ -279,7 +425,7 @@
             <label><span>Gemiddeld uurloon inclusief lasten</span><input type="number" id="avgWage" min="10" value="24"></label>
             <label><span>Doel loonkostenpercentage</span><input type="number" id="targetLabor" min="10" value="28"></label>
           </div>
-          <button class="btn primary" id="saveSettings" style="margin-top:16px"><i data-lucide="save"></i>Instellingen opslaan</button>
+          <button class="btn primary" id="saveSettings" style="margin-top:16px"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;width:1.15em;height:1.15em;flex:0 0 auto;vertical-align:-0.18em"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg>Instellingen opslaan</button>
           <span id="settingsFeedback" class="small" aria-live="polite" style="margin-left:10px"></span>
         </div>
       </section>
@@ -289,7 +435,7 @@
 
 <div class="modal" id="reservationModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
   <div class="modal-panel">
-    <div class="modal-head"><h2 id="modalTitle">Nieuwe reservering</h2><button class="icon-btn" id="closeModal" aria-label="Sluiten"><i data-lucide="x"></i></button></div>
+    <div class="modal-head"><h2 id="modalTitle">Nieuwe reservering</h2><button class="icon-btn" id="closeModal" aria-label="Sluiten"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;width:1.15em;height:1.15em;flex:0 0 auto;vertical-align:-0.18em"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
     <div class="form-grid">
       <label><span>Naam gast</span><input id="rName" placeholder="Bijvoorbeeld Familie De Boer"></label>
       <label><span>Datum</span><input type="date" id="rDate"></label>
@@ -299,11 +445,37 @@
       <label><span>Status</span><select id="rStatus"><option>Bevestigd</option><option>Optie</option></select></label>
       <label class="wide"><span>Bijzonderheden</span><input id="rNotes" placeholder="Allergieën, kinderstoel, verjaardag of arrangement"></label>
     </div>
-    <div class="modal-actions"><button class="btn" id="cancelReservation">Annuleren</button><button class="btn primary" id="saveReservation"><i data-lucide="check"></i>Reservering opslaan</button></div>
+    <div class="modal-actions"><button class="btn" id="cancelReservation">Annuleren</button><button class="btn primary" id="saveReservation"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;width:1.15em;height:1.15em;flex:0 0 auto;vertical-align:-0.18em"><path d="m20 6-11 11-5-5"/></svg>Reservering opslaan</button></div>
   </div>
 </div>
 
-<script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+
+<div class="drawer-backdrop" id="drawerBackdrop"></div>
+<aside class="drawer" id="shiftDrawer">
+  <div class="modal-head"><h2>Dienst toevoegen</h2><button class="icon-btn" id="closeShiftDrawer"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;width:1.15em;height:1.15em;flex:0 0 auto;vertical-align:-0.18em"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+  <div class="form-grid" style="grid-template-columns:1fr 1fr">
+    <label><span>Medewerker</span><select id="shiftEmployee"></select></label>
+    <label><span>Datum</span><input type="date" id="shiftDate"></label>
+    <label><span>Functie</span><select id="shiftRole"><option value="service">Bediening</option><option value="kitchen">Keuken</option><option value="bar">Bar</option><option value="host">Host</option></select></label>
+    <label><span>Type dienst</span><select id="shiftType"><option value="regular">Reguliere dienst</option><option value="open">Open dienst</option></select></label>
+    <label><span>Starttijd</span><input type="time" id="shiftStart" value="17:00"></label>
+    <label><span>Eindtijd</span><input type="time" id="shiftEnd" value="23:00"></label>
+    <label class="wide"><span>Opmerking</span><input id="shiftNote" placeholder="Bijvoorbeeld sluitdienst of inwerken"></label>
+  </div>
+  <div class="callout"><strong>Automatische controle</strong>TableFlow controleert beschikbaarheid, contracturen, rusttijd, dubbele diensten en benodigde bezetting.</div>
+  <div class="modal-actions"><button class="btn" id="cancelShift">Annuleren</button><button class="btn primary" id="saveShift"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;width:1.15em;height:1.15em;flex:0 0 auto;vertical-align:-0.18em"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg>Dienst opslaan</button></div>
+</aside>
+
+<aside class="drawer" id="employeeDrawer">
+  <div class="modal-head"><h2>Medewerker toevoegen</h2><button class="icon-btn" id="closeEmployeeDrawer"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;width:1.15em;height:1.15em;flex:0 0 auto;vertical-align:-0.18em"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+  <div class="form-grid" style="grid-template-columns:1fr 1fr">
+    <label class="wide"><span>Naam</span><input id="eName" placeholder="Voor- en achternaam"></label>
+    <label><span>Contracturen per week</span><input type="number" id="eContract" min="0" value="24"></label>
+    <label><span>Uurloon inclusief lasten</span><input type="number" id="eWage" min="10" value="24"></label>
+    <label class="wide"><span>Inzetbaar als</span><select id="eRole"><option value="service">Bediening</option><option value="kitchen">Keuken</option><option value="bar">Bar</option><option value="host">Host</option></select></label>
+  </div>
+  <div class="modal-actions"><button class="btn" id="cancelEmployee">Annuleren</button><button class="btn primary" id="saveEmployee"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;width:1.15em;height:1.15em;flex:0 0 auto;vertical-align:-0.18em"><path d="M15 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8" cy="7" r="4"/><path d="M19 8v6M16 11h6"/></svg>Medewerker toevoegen</button></div>
+</aside>
 <script>
 (() => {
   const DAY = 86400000;
@@ -323,8 +495,63 @@
     {id:7,date:addDays(6),time:'17:30',name:'Bos',guests:10,zone:'Terras',notes:'Familiediner',status:'Bevestigd'}
   ];
   const defaults = {normService:24,normKitchen:36,normBar:55,normHost:1,avgSpend:42,avgWage:24,targetLabor:28};
-  let state = JSON.parse(localStorage.getItem('tableflow-demo')||'null') || {reservations:defaultReservations,settings:defaults,schedule:{},scenario:'balanced'};
-  const save = () => localStorage.setItem('tableflow-demo',JSON.stringify(state));
+  const storageKey='tableflow-demo-v3-5';
+  let memoryStorage=null;
+
+  function readStoredState(){
+    try{
+      const raw=localStorage.getItem(storageKey);
+      return raw ? JSON.parse(raw) : null;
+    }catch(error){
+      return memoryStorage;
+    }
+  }
+
+  function writeStoredState(value){
+    memoryStorage=value;
+    try{
+      localStorage.setItem(storageKey,JSON.stringify(value));
+    }catch(error){
+      // Bij lokale bestanden kan opslag geblokkeerd zijn. De demo blijft dan
+      // tijdens de huidige browsersessie volledig werken met geheugenopslag.
+    }
+  }
+
+  function clearStoredState(){
+    memoryStorage=null;
+    try{
+      localStorage.removeItem(storageKey);
+      localStorage.removeItem('tableflow-demo');
+    }catch(error){}
+  }
+
+  const createInitialState=()=>({
+    reservations:defaultReservations.map(item=>({...item})),
+    settings:{...defaults},
+    schedule:{},
+    scenario:'balanced',
+    demoDataVersion:1
+  });
+
+  let state=readStoredState() || createInitialState();
+  if(!Array.isArray(state.reservations) || !state.reservations.length){
+    state.reservations=defaultReservations.map(item=>({...item}));
+  }
+  state.settings={...defaults,...(state.settings||{})};
+  state.schedule=state.schedule||{};
+  state.scenario=state.scenario||'balanced';
+  state.employees = state.employees || [
+    {id:101,name:'Sanne de Boer',role:'service',contract:32,wage:24,availability:'Ma, di, do, vr, za'},
+    {id:102,name:'Milan Smit',role:'service',contract:24,wage:23,availability:'Wo t/m zo'},
+    {id:103,name:'Lotte Bakker',role:'host',contract:20,wage:22,availability:'Do, vr, za, zo'},
+    {id:104,name:'Daan Visser',role:'kitchen',contract:38,wage:27,availability:'Ma t/m za'},
+    {id:105,name:'Noah Jansen',role:'kitchen',contract:32,wage:25,availability:'Di t/m zo'},
+    {id:106,name:'Emma Mulder',role:'bar',contract:24,wage:23,availability:'Vr, za, zo'},
+    {id:107,name:'Ruben Bos',role:'service',contract:16,wage:21,availability:'Vr, za, zo'}
+  ];
+  state.shifts = state.shifts || [];
+  state.scheduleMeta = state.scheduleMeta || {status:'Concept'};
+  const save = () => writeStoredState(state);
   const $ = id => document.getElementById(id);
 
   function predictedBase(date){
@@ -391,9 +618,9 @@
   function renderReservations(){
     const q=$('reservationSearch').value.toLowerCase(), status=$('reservationStatus').value;
     const rows=state.reservations.filter(r=>(!q||r.name.toLowerCase().includes(q))&&(!status||r.status===status)).sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
-    $('reservationTable').innerHTML=rows.map(r=>`<tr><td>${fmtDate(r.date)}</td><td>${r.time}</td><td><strong>${r.name}</strong></td><td>${r.guests}</td><td>${r.zone}</td><td>${r.notes||'–'}</td><td><span class="badge ${r.status==='Bevestigd'?'green':r.status==='Optie'?'amber':'red'}">${r.status}</span></td><td><button class="icon-btn delete-res" data-id="${r.id}" aria-label="Verwijderen"><i data-lucide="trash-2"></i></button></td></tr>`).join('');
+    $('reservationTable').innerHTML=rows.map(r=>`<tr><td>${fmtDate(r.date)}</td><td>${r.time}</td><td><strong>${r.name}</strong></td><td>${r.guests}</td><td>${r.zone}</td><td>${r.notes||'–'}</td><td><span class="badge ${r.status==='Bevestigd'?'green':r.status==='Optie'?'amber':'red'}">${r.status}</span></td><td><button class="icon-btn delete-res" data-id="${r.id}" aria-label="Verwijderen"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;width:1.15em;height:1.15em;flex:0 0 auto;vertical-align:-0.18em"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v5M14 11v5"/></svg></button></td></tr>`).join('');
     document.querySelectorAll('.delete-res').forEach(b=>b.addEventListener('click',()=>{state.reservations=state.reservations.filter(r=>r.id!==Number(b.dataset.id));save();renderAll()}));
-    if(window.lucide) lucide.createIcons();
+    
   }
 
   function renderForecast(){
@@ -419,33 +646,115 @@
     $('applyForecast').dataset.date=date;$('applyForecast').dataset.total=data.total;
   }
 
+  function initials(name){return name.split(' ').map(x=>x[0]).slice(0,2).join('').toUpperCase()}
+  function roleLabel(role){return {service:'Bediening',kitchen:'Keuken',bar:'Bar',host:'Host'}[role]||role}
+  function hoursBetween(start,end){
+    const [sh,sm]=start.split(':').map(Number),[eh,em]=end.split(':').map(Number);
+    let mins=eh*60+em-(sh*60+sm); if(mins<0) mins+=1440; return mins/60;
+  }
+  function employeeWeekHours(employeeId,dates){
+    return state.shifts.filter(s=>s.employeeId===employeeId&&dates.includes(s.date)).reduce((sum,s)=>sum+hoursBetween(s.start,s.end),0);
+  }
+  function openShiftCount(dates){return state.shifts.filter(s=>s.type==='open'&&dates.includes(s.date)).length}
   function renderSchedule(){
-    const start=$('scheduleWeek').value||addDays(0);
-    $('scheduleTable').innerHTML=weekDates(start).map(date=>{
-      const f=forecast(date), req=staffing(f.total), p=state.schedule[date]||req;
-      if(!state.schedule[date]) state.schedule[date]={...req};
-      const gap=(p.service-req.service)+(p.kitchen-req.kitchen)+(p.bar-req.bar)+(p.host-req.host);
-      const status=gap<0?['Onderbezet','red']:gap>2?['Ruim gepland','amber']:['In balans','green'];
-      return `<tr><td><strong>${fmtDate(date)}</strong></td><td>${f.total}</td>
-        <td><input class="schedule-input" data-date="${date}" data-role="service" type="number" min="0" value="${p.service}" style="width:70px"> / ${req.service}</td>
-        <td><input class="schedule-input" data-date="${date}" data-role="kitchen" type="number" min="0" value="${p.kitchen}" style="width:70px"> / ${req.kitchen}</td>
-        <td><input class="schedule-input" data-date="${date}" data-role="bar" type="number" min="0" value="${p.bar}" style="width:70px"> / ${req.bar}</td>
-        <td><input class="schedule-input" data-date="${date}" data-role="host" type="number" min="0" value="${p.host}" style="width:70px"> / ${req.host}</td>
-        <td><span class="badge ${status[1]}">${status[0]}</span></td></tr>`;
+    const start=$('scheduleWeek').value||addDays(0), dates=weekDates(start), dep=$('scheduleDepartment')?.value||'';
+    const visibleEmployees=state.employees.filter(e=>!dep||e.role===dep);
+
+    $('employeeList').innerHTML=visibleEmployees.map(e=>{
+      const hrs=employeeWeekHours(e.id,dates), pct=e.contract?Math.round(hrs/e.contract*100):0;
+      return `<div class="employee-card">
+        <div class="employee-head"><div style="display:flex;gap:10px"><div class="avatar">${initials(e.name)}</div><div><strong>${e.name}</strong><div class="small">${roleLabel(e.role)}</div></div></div><span class="badge ${pct>110?'red':pct>=85?'green':'gray'}">${hrs.toFixed(1).replace('.',',')} / ${e.contract} uur</span></div>
+        <div class="employee-meta"><span class="badge gray">${money(e.wage)}/uur</span><span class="badge blue">${roleLabel(e.role)}</span></div>
+        <div class="availability">Beschikbaar: ${e.availability||'Nog niet ingesteld'}</div>
+      </div>`;
     }).join('');
-    document.querySelectorAll('.schedule-input').forEach(i=>i.addEventListener('change',()=>{state.schedule[i.dataset.date][i.dataset.role]=Number(i.value);save();renderDashboard();renderSchedule()}));
-    save();
+
+    const heads=dates.map(d=>`<div class="head"><strong>${fmtDate(d)}</strong><br>${forecast(d).total} gasten</div>`).join('');
+    let grid=`<div class="head">Medewerker</div>${heads}`;
+    visibleEmployees.forEach(e=>{
+      grid+=`<div class="employee-cell"><div class="avatar">${initials(e.name)}</div><div><strong>${e.name}</strong><div class="small">${roleLabel(e.role)}</div></div></div>`;
+      dates.forEach(date=>{
+        const shifts=state.shifts.filter(s=>s.date===date&&s.employeeId===e.id);
+        grid+=`<div class="planner-cell" data-employee="${e.id}" data-date="${date}">${shifts.map(s=>`<div class="shift ${s.role} ${s.type==='open'?'open':''}"><button class="delete-shift" data-id="${s.id}" aria-label="Verwijderen">×</button><strong>${s.start}–${s.end}</strong><br>${roleLabel(s.role)}${s.note?'<br>'+s.note:''}</div>`).join('')}</div>`;
+      });
+    });
+    grid+=`<div class="employee-cell"><div class="avatar">OD</div><div><strong>Open diensten</strong><div class="small">Nog niet toegewezen</div></div></div>`;
+    dates.forEach(date=>{
+      const openShifts=state.shifts.filter(s=>s.date===date&&s.type==='open');
+      grid+=`<div class="planner-cell open-shift-cell" data-date="${date}">${openShifts.map(s=>`<div class="shift ${s.role} open"><button class="delete-shift" data-id="${s.id}" aria-label="Verwijderen">×</button><strong>${s.start}–${s.end}</strong><br>${roleLabel(s.role)}${s.note?'<br>'+s.note:''}</div>`).join('')}</div>`;
+    });
+
+    $('weekPlanner').innerHTML=grid;
+
+    const totalPlanned=state.shifts.filter(s=>dates.includes(s.date)).reduce((sum,s)=>sum+hoursBetween(s.start,s.end),0);
+    const neededPeople=dates.reduce((sum,date)=>{const st=staffing(forecast(date).total);return sum+st.service+st.kitchen+st.bar+st.host},0);
+    const neededHours=neededPeople*6;
+    const labor=state.shifts.filter(s=>dates.includes(s.date)).reduce((sum,s)=>{
+      const emp=state.employees.find(e=>e.id===s.employeeId); return sum+hoursBetween(s.start,s.end)*(emp?.wage||state.settings.avgWage)
+    },0);
+    $('sPlannedHours').textContent=totalPlanned.toFixed(1).replace('.',',');
+    $('sNeededHours').textContent=neededHours.toFixed(0);
+    $('sLaborCost').textContent=money(labor);
+    $('sOpenShifts').textContent=openShiftCount(dates);
+    $('sPublishState').textContent=state.scheduleMeta.status+'rooster';
+    $('scheduleStatus').value=state.scheduleMeta.status;
+
+    const warnings=[];
+    state.employees.forEach(e=>{
+      const hrs=employeeWeekHours(e.id,dates);
+      if(hrs>e.contract*1.15) warnings.push({type:'red',text:`${e.name} staat ${Math.round(hrs-e.contract)} uur boven contract gepland.`});
+      if(hrs<e.contract*.55 && e.contract>=24) warnings.push({type:'',text:`${e.name} staat aanzienlijk onder contract gepland.`});
+    });
+    dates.forEach(date=>{
+      const req=staffing(forecast(date).total);
+      ['service','kitchen','bar','host'].forEach(role=>{
+        const planned=state.shifts.filter(s=>s.date===date&&s.role===role&&s.type!=='open').length;
+        if(planned<req[role]) warnings.push({type:'red',text:`${fmtDate(date)}: ${req[role]-planned} medewerker(s) ${roleLabel(role).toLowerCase()} te weinig.`});
+      });
+    });
+    $('scheduleWarnings').innerHTML=(warnings.slice(0,8).map(w=>`<div class="warning-item ${w.type}">${w.text}</div>`).join('')||'<div class="small">Geen waarschuwingen.</div>');
+
+    document.querySelectorAll('.planner-cell').forEach(cell=>cell.addEventListener('click',e=>{
+      if(e.target.closest('.delete-shift')) return;
+      const employeeId=Number(cell.dataset.employee)||null;
+      const isOpen=cell.classList.contains('open-shift-cell');
+      openShiftDrawer(employeeId,cell.dataset.date,isOpen);
+    }));
+    document.querySelectorAll('.delete-shift').forEach(b=>b.addEventListener('click',e=>{
+      e.stopPropagation(); state.shifts=state.shifts.filter(s=>s.id!==Number(b.dataset.id));save();renderSchedule();renderDashboard();
+    }));
+    ;
   }
 
   function renderSettings(){
     Object.keys(defaults).forEach(k=>$(k).value=state.settings[k]);
   }
-  function renderAll(){renderDashboard();renderReservations();renderForecast();renderSchedule();renderSettings();if($('widgetPreview'))renderWidgetPreview();if(window.lucide)lucide.createIcons()}
+  function renderAll(){renderDashboard();renderReservations();renderForecast();renderSchedule();renderSettings();if($('widgetPreview'))renderWidgetPreview();}
+
+  const mobileSidebar=$('mobileSidebar');
+  const mobileOverlay=$('mobileNavOverlay');
+  const mobileMenuButton=$('openMobileMenu');
+  const closeMobileMenuButton=$('closeMobileMenu');
+
+  function setMobileMenu(open){
+    mobileSidebar.classList.toggle('open',open);
+    mobileOverlay.classList.toggle('open',open);
+    document.body.classList.toggle('menu-open',open);
+    mobileMenuButton.setAttribute('aria-expanded',String(open));
+  }
+
+  mobileMenuButton.addEventListener('click',()=>setMobileMenu(true));
+  closeMobileMenuButton.addEventListener('click',()=>setMobileMenu(false));
+  mobileOverlay.addEventListener('click',()=>setMobileMenu(false));
+  document.addEventListener('keydown',event=>{
+    if(event.key==='Escape') setMobileMenu(false);
+  });
 
   document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>{
     document.querySelectorAll('.nav button,.page').forEach(x=>x.classList.remove('active'));b.classList.add('active');$(b.dataset.page).classList.add('active');
     const labels={dashboard:['Dashboard','Vooruitblik op reserveringen, bezetting en personeelsbehoefte.'],reservations:['Reserveringen','Beheer alle reserveringen vanuit één overzicht.'],forecast:['Personeelsprognose','Bereken de benodigde bezetting ruim voor de werkdag.'],schedule:['Rooster','Vergelijk het conceptrooster met de personeelsprognose.'],reports:['Rapportages','Inzicht in omzet, personeel en restaurantprestaties.'],integration:['Website-integratie','Plaats het reserveringsformulier in de bestaande restaurantwebsite.'],settings:['Instellingen','Stel de personeelsnormen en financiële doelen in.']};
     $('pageTitle').textContent=labels[b.dataset.page][0];$('pageSubtitle').textContent=labels[b.dataset.page][1];
+    if(window.innerWidth<=760) setMobileMenu(false);
   }));
 
   const modal=$('reservationModal');
@@ -464,8 +773,33 @@
     document.querySelectorAll('.scenario-tabs button').forEach(x=>x.classList.remove('active'));b.classList.add('active');state.scenario=b.dataset.scenario;save();renderForecast();renderDashboard();renderSchedule();
   }));
   $('applyForecast').addEventListener('click',()=>{
-    const date=$('applyForecast').dataset.date,total=Number($('applyForecast').dataset.total);state.schedule[date]=staffing(total);save();
-    document.querySelector('[data-page="schedule"]').click();$('scheduleWeek').value=date;renderSchedule();
+    const date=$('applyForecast').dataset.date;
+    const total=Number($('applyForecast').dataset.total);
+    const req=staffing(total);
+
+    state.shifts=state.shifts.filter(s=>s.date!==date);
+    ['service','kitchen','bar','host'].forEach(role=>{
+      const pool=state.employees.filter(e=>e.role===role);
+      for(let i=0;i<req[role];i++){
+        const emp=pool[i%Math.max(pool.length,1)];
+        state.shifts.push({
+          id:Date.now()+Math.random(),
+          employeeId:emp?.id||0,
+          date,
+          role,
+          start:role==='kitchen'?'16:00':'17:00',
+          end:role==='kitchen'?'22:30':'23:00',
+          note:'Overgenomen uit personeelsprognose',
+          type:emp?'regular':'open'
+        });
+      }
+    });
+
+    state.scheduleMeta.status='Concept';
+    save();
+    document.querySelector('[data-page="schedule"]').click();
+    $('scheduleWeek').value=date;
+    renderSchedule();
   });
   $('scheduleWeek').addEventListener('change',renderSchedule);
   $('saveSettings').addEventListener('click',()=>{
@@ -540,10 +874,95 @@
     setTimeout(()=>$('copyFeedback').textContent='',2200);
   });
 
-  $('resetDemo').addEventListener('click',()=>{if(confirm('De demo terugzetten naar de beginwaarden?')){localStorage.removeItem('tableflow-demo');location.reload()}});
+
+  function toggleDrawer(id,open){
+    $(id).classList.toggle('open',open);$('drawerBackdrop').classList.toggle('open',open);
+  }
+  function fillEmployeeSelect(){
+    $('shiftEmployee').innerHTML='<option value="">Open dienst</option>'+state.employees.map(e=>`<option value="${e.id}">${e.name} · ${roleLabel(e.role)}</option>`).join('');
+  }
+  function openShiftDrawer(employeeId,date,isOpen){
+    fillEmployeeSelect();
+    $('shiftEmployee').value=isOpen?'':String(employeeId||'');
+    $('shiftDate').value=date||$('scheduleWeek').value||addDays(0);
+    $('shiftType').value=isOpen?'open':'regular';
+    const emp=state.employees.find(e=>e.id===employeeId);
+    $('shiftRole').value=emp?.role||'service';
+    $('shiftStart').value='17:00';$('shiftEnd').value='23:00';$('shiftNote').value='';
+    toggleDrawer('shiftDrawer',true);
+  }
+  $('closeShiftDrawer').addEventListener('click',()=>toggleDrawer('shiftDrawer',false));
+  $('cancelShift').addEventListener('click',()=>toggleDrawer('shiftDrawer',false));
+  $('drawerBackdrop').addEventListener('click',()=>{toggleDrawer('shiftDrawer',false);toggleDrawer('employeeDrawer',false)});
+  $('openShiftBtn').addEventListener('click',()=>openShiftDrawer(null,$('scheduleWeek').value||addDays(0),true));
+  $('saveShift').addEventListener('click',()=>{
+    const type=$('shiftType').value, employeeId=Number($('shiftEmployee').value)||0;
+    if(type==='regular'&&!employeeId){alert('Kies een medewerker of maak er een open dienst van.');return}
+    state.shifts.push({id:Date.now(),employeeId,date:$('shiftDate').value,role:$('shiftRole').value,start:$('shiftStart').value,end:$('shiftEnd').value,note:$('shiftNote').value.trim(),type});
+    save();toggleDrawer('shiftDrawer',false);renderSchedule();renderDashboard();
+  });
+
+  $('addEmployeeBtn').addEventListener('click',()=>toggleDrawer('employeeDrawer',true));
+  $('closeEmployeeDrawer').addEventListener('click',()=>toggleDrawer('employeeDrawer',false));
+  $('cancelEmployee').addEventListener('click',()=>toggleDrawer('employeeDrawer',false));
+  $('saveEmployee').addEventListener('click',()=>{
+    const name=$('eName').value.trim(); if(!name){alert('Vul een naam in.');return}
+    state.employees.push({id:Date.now(),name,role:$('eRole').value,contract:Number($('eContract').value),wage:Number($('eWage').value),availability:'Nog in te stellen'});
+    save();$('eName').value='';toggleDrawer('employeeDrawer',false);renderSchedule();
+  });
+
+  $('autoSchedule').addEventListener('click',()=>{
+    const dates=weekDates($('scheduleWeek').value||addDays(0));
+    state.shifts=state.shifts.filter(s=>!dates.includes(s.date));
+    dates.forEach(date=>{
+      const req=staffing(forecast(date).total);
+      ['service','kitchen','bar','host'].forEach(role=>{
+        const pool=state.employees.filter(e=>e.role===role);
+        for(let i=0;i<req[role];i++){
+          const emp=pool[i%Math.max(pool.length,1)];
+          state.shifts.push({id:Date.now()+Math.random(),employeeId:emp?.id||0,date,role,start:role==='kitchen'?'16:00':'17:00',end:role==='kitchen'?'22:30':'23:00',note:'Automatisch voorgesteld',type:emp?'regular':'open'});
+        }
+      });
+    });
+    state.scheduleMeta.status='Concept';save();renderSchedule();renderDashboard();
+  });
+  $('publishSchedule').addEventListener('click',()=>{
+    state.scheduleMeta.status='Gepubliceerd';$('scheduleStatus').value='Gepubliceerd';save();renderSchedule();
+  });
+  $('scheduleStatus').addEventListener('change',()=>{state.scheduleMeta.status=$('scheduleStatus').value;save();renderSchedule()});
+
+  $('reloadDemoData').addEventListener('click',()=>{
+    state.reservations=defaultReservations.map(item=>({...item}));
+    state.shifts=[];
+    state.schedule={};
+    state.scheduleMeta={status:'Concept'};
+    save();
+    renderAll();
+  });
+
+  $('resetDemo').addEventListener('click',()=>{
+    if(confirm('De demo terugzetten naar de beginwaarden?')){
+      clearStoredState();
+      state=createInitialState();
+      state.employees=[
+        {id:101,name:'Sanne de Boer',role:'service',contract:32,wage:24,availability:'Ma, di, do, vr, za'},
+        {id:102,name:'Milan Smit',role:'service',contract:24,wage:23,availability:'Wo t/m zo'},
+        {id:103,name:'Lotte Bakker',role:'host',contract:20,wage:22,availability:'Do, vr, za, zo'},
+        {id:104,name:'Daan Visser',role:'kitchen',contract:38,wage:27,availability:'Ma t/m za'},
+        {id:105,name:'Noah Jansen',role:'kitchen',contract:32,wage:25,availability:'Di t/m zo'},
+        {id:106,name:'Emma Mulder',role:'bar',contract:24,wage:23,availability:'Vr, za, zo'},
+        {id:107,name:'Ruben Bos',role:'service',contract:16,wage:21,availability:'Vr, za, zo'}
+      ];
+      state.shifts=[];
+      state.scheduleMeta={status:'Concept'};
+      save();
+      renderAll();
+    }
+  });
   $('forecastDate').value=addDays(14);$('scheduleWeek').value=addDays(0);
   renderAll();
 })();
 </script>
+
 </body>
 </html>
